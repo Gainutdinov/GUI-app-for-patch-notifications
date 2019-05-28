@@ -5,6 +5,8 @@ from shell_ui import Ui_MainWindow
 import os
 import sys
 
+from excelRead import readExcelFile
+
 
 class MyWin(QtWidgets.QMainWindow, Ui_MainWindow):
     
@@ -17,10 +19,9 @@ class MyWin(QtWidgets.QMainWindow, Ui_MainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         # self.myThread = MyThread()     # create mytThread instance
-
-        self.ui.pushButton.clicked.connect(self.chooseFolder)
+        self.ui.pushButton.clicked.connect(self.chooseFolder) 
         self.ui.pushButton_2.clicked.connect(self.populateTblWdt)
-    
+
 
     def chooseFolder(self):
         fileName = QtWidgets.QFileDialog.getOpenFileName(self, 'Open file', os.getcwd(), "Excel files (*.xlsx *.xls)")
@@ -32,6 +33,19 @@ class MyWin(QtWidgets.QMainWindow, Ui_MainWindow):
         print(fileName[0][-4:])
     
     def populateTblWdt(self):
+        pathToPatchFile=self.ui.lineEdit_2.text()
+        dateOfPatching=self.ui.dateEdit.date().toString('MM/dd/yyyy') # '05/11/2019' # '05/11/2019'
+        print(dateOfPatching,'---',pathToPatchFile)
+        
+        serversToPatch=readExcelFile(pathToPatchFile, dateOfPatching)
+        if len(serversToPatch):
+            for key, value in serversToPatch.items():
+                srv=key+' - '+str(value)
+                # print(type(srv))
+                self.ui.textBrowser.append(srv)#, str(value))
+        else:
+            self.ui.textBrowser.append('No matches found...')
+
         print('sssss')
         # self.ui.pushButton.clicked.connect(self.stopMonitoring)
         # self.myThread.mySignal.connect(self.updateLCD, QtCore.Qt.QueuedConnection)
