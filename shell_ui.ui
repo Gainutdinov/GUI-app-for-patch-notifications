@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>689</width>
-    <height>541</height>
+    <width>872</width>
+    <height>788</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -96,7 +96,7 @@
        <bool>false</bool>
       </property>
       <property name="text">
-       <string>Start generating email windows</string>
+       <string>Start generating emails</string>
       </property>
      </widget>
     </item>
@@ -141,7 +141,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>689</width>
+     <width>872</width>
      <height>21</height>
     </rect>
    </property>

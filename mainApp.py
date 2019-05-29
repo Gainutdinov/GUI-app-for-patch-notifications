@@ -6,6 +6,7 @@ import os
 import sys
 
 from excelRead import readExcelFile
+from cmdb import findServerInfo
 
 
 class MyWin(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -43,6 +44,33 @@ class MyWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 srv=key+' - '+str(value)
                 # print(type(srv))
                 self.ui.textBrowser.append(srv)#, str(value))
+
+                self.ui.tableWidget.setColumnCount(6)    # Устанавливаем три колонки
+                self.ui.tableWidget.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)#  .setSectionResizeMode(QHeaderView.Stretch)  # Устанавливаем три колонки
+                self.ui.tableWidget.setRowCount(len(serversToPatch))
+                self.ui.tableWidget.setHorizontalHeaderLabels(["","Hostname", "Next Maintenace start", "Next maintenance window end","Server owner","Workinstruction status"])
+                self.ui.tableWidget.setItem(0, 1, QtWidgets.QTableWidgetItem("Text in column 1"))
+                self.ui.tableWidget.setItem(0, 2, QtWidgets.QTableWidgetItem("Text in column 2"))
+                self.ui.tableWidget.setItem(0, 3, QtWidgets.QTableWidgetItem("Text in column 3"))
+                
+                cell_widget = QtWidgets.QWidget()
+                chk_bx = QtWidgets.QCheckBox()
+                chk_bx.setCheckState(QtCore.Qt.Checked)
+                lay_out = QtWidgets.QHBoxLayout(cell_widget)
+                lay_out.addWidget(chk_bx)
+                lay_out.setAlignment(QtCore.Qt.AlignCenter)
+                lay_out.setContentsMargins(0,0,0,0)
+                cell_widget.setLayout(lay_out)
+                self.ui.tableWidget.setItem(0, 0, cell_widget)
+
+                # tableWidget.setCellWidget(i, 0, cell_widget)
+
+                # chkBoxItem = QtWidgets.QTableWidgetItem()
+                # chkBoxItem.setFlags(QtCore.Qt.ItemIsUserCheckable | QtCore.Qt.ItemIsEnabled | QtCore.Qt.AlignCenter)
+                # chkBoxItem.setCheckState(QtCore.Qt.Unchecked)    
+                
+                
+                # self.ui.tableWidget.setItem(0, 2, QtWidgets.QTableWidgetItem("Text in column 3"))
         else:
             self.ui.textBrowser.append('No matches found...')
 

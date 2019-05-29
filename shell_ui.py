@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'shell_ui.ui'
+# Form implementation generated from reading ui file './shell_ui.ui'
 #
 # Created by: PyQt5 UI code generator 5.10.1
 #
@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(689, 541)
+        MainWindow.resize(872, 788)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout_2 = QtWidgets.QGridLayout(self.centralwidget)
@@ -40,8 +40,8 @@ class Ui_MainWindow(object):
         self.dateEdit = QtWidgets.QDateEdit(self.centralwidget)
         self.dateEdit.setEnabled(False)
         self.dateEdit.setObjectName("dateEdit")
-        self.dateEdit.setDate(QtCore.QDate.currentDate())
         self.gridLayout.addWidget(self.dateEdit, 2, 2, 1, 1)
+        self.dateEdit.setDate(QtCore.QDate.currentDate())
         self.lineEdit_3 = QtWidgets.QLineEdit(self.centralwidget)
         self.lineEdit_3.setEnabled(False)
         self.lineEdit_3.setObjectName("lineEdit_3")
@@ -73,7 +73,7 @@ class Ui_MainWindow(object):
         self.gridLayout_2.addWidget(self.label_4, 9, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 689, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 872, 21))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -101,17 +101,7 @@ class Ui_MainWindow(object):
         self.lineEdit.setText(_translate("MainWindow", "53.151.100.102"))
         self.dateEdit.setDisplayFormat(_translate("MainWindow", "dd.MM.yyyy"))
         self.lineEdit_3.setPlaceholderText(_translate("MainWindow", "Name.Surname@icl-services.com;Name2.Surname2@icl-services.com"))
-        self.pushButton_3.setText(_translate("MainWindow", "Start generating email windows"))
+        self.pushButton_3.setText(_translate("MainWindow", "Start generating emails"))
         self.pushButton_2.setText(_translate("MainWindow", "Read patch file"))
         self.label_4.setText(_translate("MainWindow", "Text log"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
 
