@@ -1,12 +1,16 @@
 import requests
 import json
 from html.parser import HTMLParser
+import base64
+
+
 
 requests.packages.urllib3.disable_warnings() 
 
 
-def findServerInfo(serverName, cmdbUrl='https://cmdbmbr.ru137.corpintra.net/src/jsonrpc.php', apiKey='m9aGh'):
-    # findServerInfo('S137KX001', 'https://cmdbmbr.ru137.corpintra.net/src/jsonrpc.php', 'm9aGh')
+def findServerInfo(serverName, cmdbUrl='https://cmdbmbr.ru137.corpintra.net/src/jsonrpc.php', apiKey=b'bTlhR2g='):
+    # findServerInfo('S137KX001', 'https://cmdbmbr.ru137.corpintra.net/src/jsonrpc.php', '')
+    apiKey=base64.b64decode(apiKey).decode('utf-8')
     HOSTNAME=serverName # "S137KX001" # "s926a111" "S137KX001"S137FWP004
     CMDBURL=cmdbUrl # "https://cmdbmbr.ru137.corpintra.net/src/jsonrpc.php" 
     HEADERS={'content-type': 'application/json'}

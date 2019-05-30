@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-from PyQt5 import QtCore, QtWidgets, QtMultimedia
+from PyQt5 import QtCore, QtWidgets, QtMultimedia, QtGui
 from shell_ui import Ui_MainWindow
 import os
 import sys
@@ -37,40 +37,35 @@ class MyWin(QtWidgets.QMainWindow, Ui_MainWindow):
         pathToPatchFile=self.ui.lineEdit_2.text()
         dateOfPatching=self.ui.dateEdit.date().toString('MM/dd/yyyy') # '05/11/2019' # '05/11/2019'
         print(dateOfPatching,'---',pathToPatchFile)
-        
         serversToPatch=readExcelFile(pathToPatchFile, dateOfPatching)
+        self.ui.tableWidget.clear()
         if len(serversToPatch):
-            for key, value in serversToPatch.items():
-                srv=key+' - '+str(value)
-                # print(type(srv))
-                self.ui.textBrowser.append(srv)#, str(value))
+            self.ui.tableWidget.setColumnCount(6)    # Устанавливаем шесть колонок
+            self.ui.tableWidget.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)#  .setSectionResizeMode(QHeaderView.Stretch)  # Устанавливаем три колонки
+            self.ui.tableWidget.setRowCount(len(serversToPatch))
+            self.ui.tableWidget.setHorizontalHeaderLabels(["","Hostname", "Next Maintenace start", "Next maintenance window end","Server owner","Workinstruction status"]) 
+            # ["" - 0 ,"Hostname" - 1, "Next Maintenace start" - 2, "Next maintenance window end" - 3,"Server owner" - 4,"Workinstruction status" - 5]
 
-                self.ui.tableWidget.setColumnCount(6)    # Устанавливаем три колонки
-                self.ui.tableWidget.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)#  .setSectionResizeMode(QHeaderView.Stretch)  # Устанавливаем три колонки
-                self.ui.tableWidget.setRowCount(len(serversToPatch))
-                self.ui.tableWidget.setHorizontalHeaderLabels(["","Hostname", "Next Maintenace start", "Next maintenance window end","Server owner","Workinstruction status"])
-                self.ui.tableWidget.setItem(0, 1, QtWidgets.QTableWidgetItem("Text in column 1"))
-                self.ui.tableWidget.setItem(0, 2, QtWidgets.QTableWidgetItem("Text in column 2"))
-                self.ui.tableWidget.setItem(0, 3, QtWidgets.QTableWidgetItem("Text in column 3"))
-                
-                cell_widget = QtWidgets.QWidget()
-                chk_bx = QtWidgets.QCheckBox()
-                chk_bx.setCheckState(QtCore.Qt.Checked)
-                lay_out = QtWidgets.QHBoxLayout(cell_widget)
-                lay_out.addWidget(chk_bx)
-                lay_out.setAlignment(QtCore.Qt.AlignCenter)
-                lay_out.setContentsMargins(0,0,0,0)
-                cell_widget.setLayout(lay_out)
-                self.ui.tableWidget.setItem(0, 0, cell_widget)
 
-                # tableWidget.setCellWidget(i, 0, cell_widget)
+            row=0
+            for serverName, value in serversToPatch.items():
+                srv=serverName+' - '+str(value)
+                mntStart=value[0]
+                mntEnd=value[1]
+                chkBoxItem = QtWidgets.QTableWidgetItem()
+                chkBoxItem.setFlags(QtCore.Qt.ItemIsUserCheckable | QtCore.Qt.ItemIsEnabled)
+                chkBoxItem.setCheckState(QtCore.Qt.Checked)
+                serverOwner,wrkInstruction = findServerInfo(serverName)
 
-                # chkBoxItem = QtWidgets.QTableWidgetItem()
-                # chkBoxItem.setFlags(QtCore.Qt.ItemIsUserCheckable | QtCore.Qt.ItemIsEnabled | QtCore.Qt.AlignCenter)
-                # chkBoxItem.setCheckState(QtCore.Qt.Unchecked)    
-                
-                
-                # self.ui.tableWidget.setItem(0, 2, QtWidgets.QTableWidgetItem("Text in column 3"))
+                self.ui.textBrowser.append(srv)
+
+                self.ui.tableWidget.setItem(row, 0, chkBoxItem)
+                self.ui.tableWidget.setItem(row, 1, QtWidgets.QTableWidgetItem(serverName))
+                self.ui.tableWidget.setItem(row, 2, QtWidgets.QTableWidgetItem(mntStart))
+                self.ui.tableWidget.setItem(row, 3, QtWidgets.QTableWidgetItem(mntEnd))
+                self.ui.tableWidget.setItem(row, 4, QtWidgets.QTableWidgetItem(serverOwner))
+                self.ui.tableWidget.setItem(row, 5, QtWidgets.QTableWidgetItem(wrkInstruction))
+                row += 1
         else:
             self.ui.textBrowser.append('No matches found...')
 
