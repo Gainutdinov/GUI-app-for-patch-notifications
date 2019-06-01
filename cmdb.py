@@ -2,7 +2,7 @@ import requests
 import json
 from html.parser import HTMLParser
 import base64
-
+from time import sleep
 
 
 requests.packages.urllib3.disable_warnings() 
@@ -83,3 +83,8 @@ def findServerInfo(serverName, cmdbUrl='https://cmdbmbr.ru137.corpintra.net/src/
     else:
         print(r.text)
     return SERVEROWNERS,WorkInstructionLink
+
+
+def fakeFunction(serverName, cmdbUrl='https://cmdbmbr.ru137.corpintra.net/src/jsonrpc.php', apiKey=b'bTlhR2g='):
+    sleep(1)
+    return "Sleep","WorkInstruction"

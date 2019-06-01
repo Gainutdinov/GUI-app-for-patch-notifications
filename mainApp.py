@@ -6,20 +6,17 @@ import os
 import sys
 
 from excelRead import readExcelFile
-from cmdb import findServerInfo
+from cmdb import findServerInfo, fakeFunction
 
 
 class MyWin(QtWidgets.QMainWindow, Ui_MainWindow):
     
-
-
     def __init__(self, parent=None):
         super(MyWin, self).__init__(parent)
         #super().__init__()
         #QtWidgets.QWidget.__init__(self, parent)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        # self.myThread = MyThread()     # create mytThread instance
         self.ui.pushButton.clicked.connect(self.chooseFolder) 
         self.ui.pushButton_2.clicked.connect(self.populateTblWdt)
 
@@ -40,9 +37,11 @@ class MyWin(QtWidgets.QMainWindow, Ui_MainWindow):
         serversToPatch=readExcelFile(pathToPatchFile, dateOfPatching)
         self.ui.tableWidget.clear()
         if len(serversToPatch):
+            
             self.ui.tableWidget.setColumnCount(6)    # Устанавливаем шесть колонок
             self.ui.tableWidget.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)#  .setSectionResizeMode(QHeaderView.Stretch)  # Устанавливаем три колонки
-            self.ui.tableWidget.setRowCount(len(serversToPatch))
+            rows=len(serversToPatch)
+            self.ui.tableWidget.setRowCount(rows)
             self.ui.tableWidget.setHorizontalHeaderLabels(["","Hostname", "Next Maintenace start", "Next maintenance window end","Server owner","Workinstruction status"]) 
             # ["" - 0 ,"Hostname" - 1, "Next Maintenace start" - 2, "Next maintenance window end" - 3,"Server owner" - 4,"Workinstruction status" - 5]
 
@@ -55,10 +54,10 @@ class MyWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 chkBoxItem = QtWidgets.QTableWidgetItem()
                 chkBoxItem.setFlags(QtCore.Qt.ItemIsUserCheckable | QtCore.Qt.ItemIsEnabled)
                 chkBoxItem.setCheckState(QtCore.Qt.Checked)
-                serverOwner,wrkInstruction = findServerInfo(serverName)
+
+                serverOwner,wrkInstruction = fakeFunction(serverName)
 
                 self.ui.textBrowser.append(srv)
-
                 self.ui.tableWidget.setItem(row, 0, chkBoxItem)
                 self.ui.tableWidget.setItem(row, 1, QtWidgets.QTableWidgetItem(serverName))
                 self.ui.tableWidget.setItem(row, 2, QtWidgets.QTableWidgetItem(mntStart))
@@ -66,6 +65,7 @@ class MyWin(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.ui.tableWidget.setItem(row, 4, QtWidgets.QTableWidgetItem(serverOwner))
                 self.ui.tableWidget.setItem(row, 5, QtWidgets.QTableWidgetItem(wrkInstruction))
                 row += 1
+                self.ui.progressBar.setValue(row/rows*100)
         else:
             self.ui.textBrowser.append('No matches found...')
 
