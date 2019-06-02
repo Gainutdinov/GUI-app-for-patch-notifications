@@ -82,7 +82,7 @@ def findServerInfo(serverName, cmdbUrl='https://cmdbmbr.ru137.corpintra.net/src/
             print("suitable hostname was not found ,'ans' variable was NOT defined")
     else:
         print(r.text)
-    return SERVEROWNERS,WorkInstructionLink
+    return SERVEROWNERS.replace(',',';'),WorkInstructionLink
 
 
 def fakeFunction(serverName, cmdbUrl='https://cmdbmbr.ru137.corpintra.net/src/jsonrpc.php', apiKey=b'bTlhR2g='):
