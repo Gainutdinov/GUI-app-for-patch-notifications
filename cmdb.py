@@ -8,7 +8,7 @@ from time import sleep
 requests.packages.urllib3.disable_warnings() 
 
 
-def findServerInfo(serverName, cmdbUrl='https://cmdbmbr.ru137.corpintra.net/src/jsonrpc.php', apiKey=b'bTlhR2g='):
+def findServerInfo(serverName, cmdbUrl='https://cmdbmbr.ru137.corpintra.net/src/jsonrpc.php', apiKey=b'apiKey'):
     # findServerInfo('S137KX001', 'https://cmdbmbr.ru137.corpintra.net/src/jsonrpc.php', '')
     apiKey=base64.b64decode(apiKey).decode('utf-8')
     HOSTNAME=serverName # "S137KX001" # "s926a111" "S137KX001"S137FWP004
@@ -85,6 +85,6 @@ def findServerInfo(serverName, cmdbUrl='https://cmdbmbr.ru137.corpintra.net/src/
     return SERVEROWNERS.replace(',',';'),WorkInstructionLink
 
 
-def fakeFunction(serverName, cmdbUrl='https://cmdbmbr.ru137.corpintra.net/src/jsonrpc.php', apiKey=b'bTlhR2g='):
+def fakeFunction(serverName, cmdbUrl='https://cmdbmbr.ru137.corpintra.net/src/jsonrpc.php', apiKey=b'apiKey'):
     sleep(1)
     return "Sleep","WorkInstruction"
