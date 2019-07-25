@@ -7,8 +7,12 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import smtplib
+from email.mime.text import MIMEText
+from email.header import Header
+import sys
 
-class Mail_Ui_MainWindow(object):
+class Mail_Ui_MainWindow(QtWidgets.QMainWindow,object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(640, 480)
@@ -65,6 +69,25 @@ class Mail_Ui_MainWindow(object):
         self.pushButton.setText(_translate("MainWindow", "Send an email"))
         self.label_2.setText(_translate("MainWindow", "To"))
 
+    def closeEvent(self, event):
+        event.accept()
     
     def sendMessage(self):
         print('sendMessage')
+        HOST = self.SMTPSERVER
+        SUBJECT = self.lineEdit_3.text()
+        CC = self.lineEdit_2.text().split(';')
+        TO = self.lineEdit.text().split(';') #"Marat.Gainutdinov@icl-services.com"
+        FROM = self.lineEdit_4.text().split(';') # "marat@daimler.com"
+        #"Test email for notifications"
+        BODY = (self.textEdit.toPlainText()) #.encode("utf-8", errors="ignore")
+        msg = MIMEText(BODY, _charset="UTF-8")
+        msg['Subject'] = Header(SUBJECT, "utf-8")
+        msg['To'] = ','.join(TO)
+        msg['Cc'] = ','.join(CC)
+
+        server = smtplib.SMTP(HOST)
+        server.sendmail(FROM, TO + CC, msg.as_string())
+        server.quit()
+        # QtCore.QCoreApplication.().quit()
+

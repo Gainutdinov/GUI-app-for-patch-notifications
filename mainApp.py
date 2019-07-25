@@ -67,29 +67,24 @@ class MyWin(QtWidgets.QMainWindow, Ui_MainWindow):
             toField = emailMsg[key][0][3]
             serverInfo = "\n".join([ str(_[0]+' - '+_[1]+' - '+_[2]+" - \n"+_[4]) for _ in emailMsg[key] ])
             print(type(serverInfo))
-            emailText = '''
-Hello colleagues,
-I let you know that the following servers will be patched soon:
-Hostname - MaintenanceStarts - MaintenanceEnds - Worksintruction
-{0}'''.format(serverInfo)
+            emailText = '''Kоллеги, здравствуйте,
+в указанное время будет выполнено обновление/закрытие уязвимостей на следующем серверах:
+
+Hostname - MaintenanceStarts - MaintenanceTill - Worksintruction
+----------------------------------------------------------------
+{0}
+
+в случае если вы хотите отменить плановые работы просьба сообщить заранее!'''.format(serverInfo)
+
 
 
             self.mailWindow_list[self.mailWindow_list.index(obj)][0].lineEdit_3.setText(emailTitle)
             self.mailWindow_list[self.mailWindow_list.index(obj)][0].lineEdit.setText(toField)
             self.mailWindow_list[self.mailWindow_list.index(obj)][0].textEdit.setText(emailText)
+            self.mailWindow_list[self.mailWindow_list.index(obj)][0].SMTPSERVER = self.ui.lineEdit.text() # smtp.testrussia.local
+            self.mailWindow_list[self.mailWindow_list.index(obj)][0].FROM = self.ui.lineEdit_4.text()
 
             self.mailWindow_list[self.mailWindow_list.index(obj)][1].show()
-
-        #mailWindow_list[0][0].show()
-        #mailWindow_list[1][0].show()
-            # self.window = QtWidgets.QMainWindow()
-            # self.mail_ui = Mail_Ui_MainWindow()
-            # self.mail_ui.setupUi(self.window)
-            # self.mail_ui.lineEdit
-            # self.mail_ui.lineEdit_2
-            # self.mail_ui.lineEdit_3.setText('TEST')
-            # self.mail_ui.pushButton.clicked.connect(self.mail_ui.sendMessage)
-            # self.window.show()
 
         # self.close()
 
@@ -128,8 +123,7 @@ Hostname - MaintenanceStarts - MaintenanceEnds - Worksintruction
                 chkBoxItem = QtWidgets.QTableWidgetItem()
                 chkBoxItem.setFlags(QtCore.Qt.ItemIsUserCheckable | QtCore.Qt.ItemIsEnabled)
                 chkBoxItem.setCheckState(QtCore.Qt.Checked)
-
-                serverOwner,wrkInstruction = fakeFunction(serverName)
+                serverOwner,wrkInstruction = findServerInfo(serverName) #fakeFunction(serverName) 
 
                 self.ui.textBrowser.append(srv)
                 self.ui.tableWidget.setItem(row, 0, chkBoxItem)
